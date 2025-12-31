@@ -9,27 +9,26 @@
   <meta property="og:title" content="Water Pollution in India - Educational Resource" />
   <meta property="og:description" content="A comprehensive educational website about the causes, effects, and solutions to water pollution in India." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://replit.com/public/images/opengraph.png" />
+  <meta property="og:image" content="opengraph.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Water Pollution in India" />
   <meta name="twitter:description" content="Learn about the water crisis in India: causes, effects, and solutions." />
-  <meta name="twitter:image" content="https://replit.com/public/images/opengraph.png" />
+  <meta name="twitter:image" content="opengraph.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon.png" />
+  <!-- ✅ FIXED favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Compiled Tailwind CSS -->
-  <link rel="stylesheet" href="dist/style.css" />
-  
+  <!-- ✅ CSS path corrected -->
+  <link rel="stylesheet" href="style.css" />
+
   <style>
-    /* Extra fallback for shimmer animation & float */
     @keyframes shimmer {
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -50,35 +49,35 @@
     }
   </style>
 </head>
-<body class="font-sans bg-background text-foreground antialiased">
 
-  <!-- Example content -->
+<body class="font-sans antialiased">
+
   <header class="p-8 text-center">
-    <h1 class="text-5xl font-serif font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent shimmer-text">
+    <h1 class="text-5xl font-bold shimmer-text">
       Water Pollution in India
     </h1>
     <p class="mt-4 text-lg">Explore the causes, effects, and solutions.</p>
   </header>
 
   <main class="p-8 grid gap-8">
-    <section class="glass-morphism p-6 rounded-lg shadow-xl">
+    <section class="p-6 rounded-lg shadow-xl">
       <h2 class="text-2xl font-bold mb-2">Causes</h2>
       <p>Industrial waste, sewage, and agricultural runoff contribute to water pollution.</p>
     </section>
-    <section class="glass-morphism p-6 rounded-lg shadow-xl float-animation">
+
+    <section class="p-6 rounded-lg shadow-xl float-animation">
       <h2 class="text-2xl font-bold mb-2">Effects</h2>
       <p>Waterborne diseases, ecosystem damage, and scarcity of clean water are major impacts.</p>
     </section>
-    <section class="glass-morphism p-6 rounded-lg shadow-xl gradient-border">
+
+    <section class="p-6 rounded-lg shadow-xl">
       <h2 class="text-2xl font-bold mb-2">Solutions</h2>
       <p>Wastewater treatment, awareness campaigns, and stricter regulations can help reduce pollution.</p>
     </section>
   </main>
 
-  <!-- JS if needed -->
-  <script type="module" src="dist/main.js"></script>
+  <!-- ✅ JS path corrected -->
+  <script src="main.js"></script>
 
 </body>
 </html>
-
-
