@@ -1,97 +1,268 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/not-found";
-import Home from "@/pages/home";
-import About from "@/pages/about";
-import Causes from "@/pages/causes";
-import PollutedCities from "@/pages/polluted-cities";
-import Effects from "@/pages/effects";
-import GovernmentActions from "@/pages/government-actions";
-import Solutions from "@/pages/solutions";
-import Statistics from "@/pages/statistics";
-import Contact from "@/pages/contact";
-import SDG6 from "@/pages/sdg-6";
-import SDG13 from "@/pages/sdg-13";
-import SDG14 from "@/pages/sdg-14";
-import SDG15 from "@/pages/sdg-15";
-import SurfaceWaterPollution from "@/pages/pollution-surface";
-import GroundwaterPollution from "@/pages/pollution-groundwater";
-import ChemicalPollution from "@/pages/pollution-chemical";
-import BiologicalPollution from "@/pages/pollution-biological";
-import NutrientPollution from "@/pages/pollution-nutrient";
-import PlasticPollution from "@/pages/pollution-plastic";
-import ThermalPollution from "@/pages/pollution-thermal";
-import OilPollution from "@/pages/pollution-oil";
-import IndustrialWasteCause from "@/pages/cause-industrial";
-import DomesticSewageCause from "@/pages/cause-domestic";
-import AgriculturalRunoffCause from "@/pages/cause-agricultural";
-import ReligiousSocialCause from "@/pages/cause-religious";
-import DelhiCity from "@/pages/city-delhi";
-import KanpurCity from "@/pages/city-kanpur";
-import VaranasiCity from "@/pages/city-varanasi";
-import MumbaiCity from "@/pages/city-mumbai";
-import BengaluruCity from "@/pages/city-bengaluru";
-import HyderabadCity from "@/pages/city-hyderabad";
-import WastewaterTreatmentSolution from "@/pages/solution-treatment";
-import AfforestationSolution from "@/pages/solution-afforestation";
-import AwarenessEducationSolution from "@/pages/solution-awareness";
-import RainwaterHarvestingSolution from "@/pages/solution-rainwater";
+import { Layout } from "../components/layout";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
 
-function Router() {
+import { useLocation } from "wouter";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Droplet,
+  Beaker,
+  Waves,
+  Leaf,
+  Trash2,
+  Flame,
+  Wind,
+  AlertCircle,
+} from "lucide-react";
+
+type PollutionType = {
+  id: string;
+  title: string;
+  description: string;
+  icon: any;
+  color: string;
+  impacts: string[];
+};
+
+const pollutionTypes: PollutionType[] = [
+  {
+    id: "surface",
+    title: "Surface Water Pollution",
+    description:
+      "Contamination of rivers, lakes, reservoirs, and oceans visible to the naked eye.",
+    icon: Waves,
+    color: "from-blue-500 to-cyan-500",
+    impacts: [
+      "Unsafe drinking water",
+      "Fish death",
+      "Foul smell",
+      "Ecosystem disruption",
+    ],
+  },
+  {
+    id: "groundwater",
+    title: "Groundwater Pollution",
+    description:
+      "Underground water contamination from seepage and infiltration, often invisible but widespread.",
+    icon: Droplet,
+    color: "from-indigo-500 to-blue-500",
+    impacts: [
+      "Well water contamination",
+      "Long-term health effects",
+      "Hard to clean",
+      "Widespread damage",
+    ],
+  },
+  {
+    id: "chemical",
+    title: "Chemical Pollution",
+    description:
+      "Heavy metals, pesticides, and industrial chemicals entering water bodies.",
+    icon: Beaker,
+    color: "from-purple-500 to-pink-500",
+    impacts: [
+      "Bioaccumulation",
+      "Cancer risk",
+      "Birth defects",
+      "Organ damage",
+    ],
+  },
+  {
+    id: "biological",
+    title: "Biological Pollution",
+    description:
+      "Bacterial and microbial contamination from sewage and organic waste.",
+    icon: Wind,
+    color: "from-green-500 to-teal-500",
+    impacts: ["Waterborne diseases", "Cholera", "Dysentery", "Typhoid"],
+  },
+  {
+    id: "nutrient",
+    title: "Nutrient Pollution (Eutrophication)",
+    description:
+      "Excess nitrogen and phosphorus from fertilizers causing algae blooms.",
+    icon: Leaf,
+    color: "from-emerald-500 to-green-500",
+    impacts: [
+      "Algae blooms",
+      "Dead zones",
+      "Oxygen depletion",
+      "Fish death",
+    ],
+  },
+  {
+    id: "plastic",
+    title: "Plastic Pollution",
+    description:
+      "Accumulation of single-use plastics and microplastics in water bodies.",
+    icon: Trash2,
+    color: "from-orange-500 to-red-500",
+    impacts: [
+      "Marine life choking",
+      "Microplastic ingestion",
+      "Ecosystem disruption",
+      "Persistent pollution",
+    ],
+  },
+  {
+    id: "oil",
+    title: "Oil Pollution",
+    description:
+      "Oil spills and petroleum discharge from industries and transport.",
+    icon: AlertCircle,
+    color: "from-amber-600 to-orange-600",
+    impacts: [
+      "Toxic slicks",
+      "Marine habitat loss",
+      "Bird and fish deaths",
+      "Water toxicity",
+    ],
+  },
+  {
+    id: "thermal",
+    title: "Thermal Pollution",
+    description:
+      "Temperature rise in water bodies due to industrial cooling processes.",
+    icon: Flame,
+    color: "from-red-500 to-yellow-500",
+    impacts: [
+      "Oxygen reduction",
+      "Fish migration issues",
+      "Breeding disruption",
+      "Species loss",
+    ],
+  },
+];
+
+export default function About() {
+  const [, navigate] = useLocation();
+
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/about" component={About} />
-      <Route path="/causes" component={Causes} />
-      <Route path="/cities" component={PollutedCities} />
-      <Route path="/effects" component={Effects} />
-      <Route path="/actions" component={GovernmentActions} />
-      <Route path="/solutions" component={Solutions} />
-      <Route path="/statistics" component={Statistics} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/sdg/6" component={SDG6} />
-      <Route path="/sdg/13" component={SDG13} />
-      <Route path="/sdg/14" component={SDG14} />
-      <Route path="/sdg/15" component={SDG15} />
-      <Route path="/pollution/surface" component={SurfaceWaterPollution} />
-      <Route path="/pollution/groundwater" component={GroundwaterPollution} />
-      <Route path="/pollution/chemical" component={ChemicalPollution} />
-      <Route path="/pollution/biological" component={BiologicalPollution} />
-      <Route path="/pollution/nutrient" component={NutrientPollution} />
-      <Route path="/pollution/plastic" component={PlasticPollution} />
-      <Route path="/pollution/thermal" component={ThermalPollution} />
-      <Route path="/pollution/oil" component={OilPollution} />
-      <Route path="/cause/industrial" component={IndustrialWasteCause} />
-      <Route path="/cause/domestic" component={DomesticSewageCause} />
-      <Route path="/cause/agricultural" component={AgriculturalRunoffCause} />
-      <Route path="/cause/religious" component={ReligiousSocialCause} />
-      <Route path="/city/delhi" component={DelhiCity} />
-      <Route path="/city/kanpur" component={KanpurCity} />
-      <Route path="/city/varanasi" component={VaranasiCity} />
-      <Route path="/city/mumbai" component={MumbaiCity} />
-      <Route path="/city/bengaluru" component={BengaluruCity} />
-      <Route path="/city/hyderabad" component={HyderabadCity} />
-      <Route path="/solution/treatment" component={WastewaterTreatmentSolution} />
-      <Route path="/solution/afforestation" component={AfforestationSolution} />
-      <Route path="/solution/awareness" component={AwarenessEducationSolution} />
-      <Route path="/solution/rainwater" component={RainwaterHarvestingSolution} />
-      <Route component={NotFound} />
-    </Switch>
+    <Layout>
+      <div className="container mx-auto px-4 py-16">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            Types of Water Pollution
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Learn about the major types of water pollution, their causes, and
+            their impact on humans and ecosystems.
+          </p>
+        </motion.div>
+
+        {/* Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {pollutionTypes.map((pollution, index) => {
+            const Icon = pollution.icon;
+            return (
+              <motion.div
+                key={pollution.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                onClick={() => navigate(`/pollution/${pollution.id}`)}
+              >
+                <Card className="h-full cursor-pointer border-none shadow-lg hover:shadow-2xl transition-all">
+                  <div
+                    className={`bg-gradient-to-br ${pollution.color} p-8 text-white`}
+                  >
+                    <Icon className="h-12 w-12 mb-4" />
+                  </div>
+
+                  <CardHeader>
+                    <CardTitle className="text-lg">
+                      {pollution.title}
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      {pollution.description}
+                    </p>
+
+                    <div className="pt-2 border-t">
+                      <p className="text-xs font-semibold text-primary mb-2">
+                        Key Impacts
+                      </p>
+                      <ul className="space-y-1 text-xs text-muted-foreground">
+                        {pollution.impacts.map((impact, i) => (
+                          <li key={i} className="flex gap-2">
+                            <span className="text-primary">→</span>
+                            <span>{impact}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Statistics */}
+        <section className="mb-16 py-12 rounded-3xl bg-primary/10 border border-primary/20">
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            Why This Matters
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-5xl font-bold text-primary mb-3">2.2B</div>
+              <p className="text-muted-foreground">
+                People lack access to safe drinking water
+              </p>
+            </div>
+
+            <div>
+              <div className="text-5xl font-bold text-primary mb-3">80%</div>
+              <p className="text-muted-foreground">
+                Wastewater is released untreated
+              </p>
+            </div>
+
+            <div>
+              <div className="text-5xl font-bold text-primary mb-3">1M</div>
+              <p className="text-muted-foreground">
+                Tons of plastic enter oceans every year
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-6">
+            Ready to Learn the Solutions?
+          </h2>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Take the next step and explore solutions to reduce water pollution
+            and protect our future.
+          </p>
+
+          <Button
+            size="lg"
+            onClick={() => navigate("/solutions")}
+            className="px-8 py-6 text-lg rounded-full"
+          >
+            Explore Solutions
+            <ArrowRight className="ml-3 h-5 w-5" />
+          </Button>
+        </div>
+      </div>
+    </Layout>
   );
 }
-
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
-}
-
-export default App;
